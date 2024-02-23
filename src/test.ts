@@ -1,14 +1,8 @@
-import { ColorTranslator } from "../node_modules/colortranslator/index.js";
+import TerminalTheme from "./TerminalTheme.js";
+import fs from "node:fs";
 
-class MyThing {
-    myNumber: number;
+const file = fs.readFileSync("/Users/fisher/Downloads/Cobalt2.toml")
+const str = file.toString()
+const theme = TerminalTheme.fromAlacritty(str)
 
-    constructor() {
-        this.myNumber = 5;
-    }
-}
-
-const myThing = new MyThing();
-const ct = new ColorTranslator("red");
-console.log(ct);
-console.log(myThing);
+console.log(theme)
