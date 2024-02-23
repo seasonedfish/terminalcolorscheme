@@ -119,7 +119,7 @@ class AnsiBuilder implements Partial<Ansi> {
     }
 }
 
-class TermTheme {
+interface TerminalTheme {
     background: ColorTranslator
     foreground: ColorTranslator
     ansi: Ansi
@@ -130,32 +130,18 @@ class TermTheme {
 
     selectionBackground?:ColorTranslator
     selectionForeground?:ColorTranslator
-    
-    constructor(
-        background: ColorTranslator,
-        foreground: ColorTranslator,
-        ansi: Ansi,
-        cursorBackground?: ColorTranslator,
-        cursorBorder?: ColorTranslator,
-        cursorForeground?: ColorTranslator,
-        selectionBackground?:ColorTranslator,
-        selectionForeground?:ColorTranslator,
-    ) {
-        this.background = background;
-        this.foreground = foreground;
-        this.ansi = ansi;
-        this.cursorBackground = cursorBackground;
-        this.cursorBorder = cursorBorder;
-        this.cursorForeground = cursorForeground;
-        this.selectionBackground = selectionBackground;
-        this.selectionForeground = selectionForeground;
+}
+
+class TerminalTheme implements TerminalTheme {
+    constructor(terminalTheme: TerminalTheme) {
+        Object.assign(this, terminalTheme);
     }
 
-    static fromAlacritty(themeText: string): TermTheme {
+    static fromAlacritty(themeText: string): TerminalTheme {
         var data = toml.parse(themeText);
 
-        const builder = new AnsiBuilder()
-        const ansi = builder
+        const ansiBuilder = new AnsiBuilder()
+        const ansi = ansiBuilder
             .withBlack(data.colors.normal.black)
             .withRed(data.colors.normal.red)
             .withGreen(data.colors.normal.green)
@@ -173,12 +159,61 @@ class TermTheme {
             .withBrightCyan(data.colors.bright.cyan)
             .withBrightWhite(data.colors.bright.white)
             .build();
-
-        return new TermTheme(
-            new ColorTranslator(data.colors.primary.background),
-            new ColorTranslator(data.colors.primary.foreground),
-            ansi
-        )
+        
+        const terminalThemeBuilder = new TerminalThemeBuilder()
+        return terminalThemeBuilder
+            .withBackground(data.colors.primary.background)
+            .withForeground(data.colors.primary.foreground)
+            .withAnsi(ansi)
+            .build()
     }
 }
 
+class TerminalThemeBuilder implements Partial<TerminalTheme> {
+    background?: ColorTranslator;
+    foreground?: ColorTranslator;
+    ansi?: Ansi;
+
+    cursorBackground?: ColorTranslator;
+    cursorBorder?: ColorTranslator;
+    cursorForeground?: ColorTranslator;
+
+    selectionBackground?: ColorTranslator;
+    selectionForeground?: ColorTranslator;
+
+    withBackground(background: ColorTranslatorInput): this & Pick<TerminalTheme, "background"> {
+        return Object.assign(this, { background: new ColorTranslator(...background) });
+    }
+
+    withForeground(foreground: ColorTranslatorInput): this & Pick<TerminalTheme, "foreground"> {
+        return Object.assign(this, { foreground: new ColorTranslator(...foreground) });
+    }
+
+    withAnsi(ansi: Ansi): this & Pick<TerminalTheme, "ansi"> {
+        return Object.assign(this, { ansi });
+    }
+
+    withCursorBackground(cursorBackground: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "cursorBackground">> {
+        return Object.assign(this, { cursorBackground: new ColorTranslator(...cursorBackground) });
+    }
+
+    withCursorBorder(cursorBorder: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "cursorBorder">> {
+        return Object.assign(this, { cursorBorder: new ColorTranslator(...cursorBorder) });
+    }
+
+    withCursorForeground(cursorForeground: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "cursorForeground">> {
+        return Object.assign(this, { cursorForeground: new ColorTranslator(...cursorForeground) });
+    }
+
+    withSelectionBackground(selectionBackground: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "selectionBackground">> {
+        return Object.assign(this, { selectionBackground: new ColorTranslator(...selectionBackground) });
+    }
+
+    withSelectionForeground(selectionForeground: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "selectionForeground">> {
+        return Object.assign(this, { selectionForeground: new ColorTranslator(...selectionForeground) });
+    }
+
+    build(this: TerminalTheme) {
+        return new TerminalTheme(this);
+    }
+}
