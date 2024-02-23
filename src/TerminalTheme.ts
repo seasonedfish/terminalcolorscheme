@@ -138,7 +138,11 @@ class TerminalTheme implements TerminalTheme {
     }
 
     static fromAlacritty(themeText: string): TerminalTheme {
-        var data = toml.parse(themeText);
+        try {
+            var data = toml.parse(themeText);
+        } catch (err) {
+            throw new Error(`Parsing TOML failed: ${err}`)
+        }
 
         const ansiBuilder = new AnsiBuilder()
         const ansi = ansiBuilder
