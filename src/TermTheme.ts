@@ -171,6 +171,8 @@ class TerminalTheme implements TerminalTheme {
     }
 }
 
+export default TerminalTheme;
+
 class TerminalThemeBuilder implements Partial<TerminalTheme> {
     background?: ColorTranslator;
     foreground?: ColorTranslator;
