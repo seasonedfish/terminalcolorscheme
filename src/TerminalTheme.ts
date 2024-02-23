@@ -50,67 +50,67 @@ class AnsiBuilder implements Partial<Ansi> {
     brightCyan?: ColorTranslator;
     brightWhite?: ColorTranslator;
 
-    withBlack(black: ColorTranslatorInput): this & Pick<Ansi, "black"> {
+    withBlack(...black: ColorTranslatorInput): this & Pick<Ansi, "black"> {
         return Object.assign(this, {black: new ColorTranslator(...black)})
     }
 
-    withRed(red: ColorTranslatorInput): this & Pick<Ansi, "red"> {
+    withRed(...red: ColorTranslatorInput): this & Pick<Ansi, "red"> {
         return Object.assign(this, { red: new ColorTranslator(...red) });
     }
 
-    withGreen(green: ColorTranslatorInput): this & Pick<Ansi, "green"> {
+    withGreen(...green: ColorTranslatorInput): this & Pick<Ansi, "green"> {
         return Object.assign(this, { green: new ColorTranslator(...green) });
     }
 
-    withYellow(yellow: ColorTranslatorInput): this & Pick<Ansi, "yellow"> {
+    withYellow(...yellow: ColorTranslatorInput): this & Pick<Ansi, "yellow"> {
         return Object.assign(this, { yellow: new ColorTranslator(...yellow) });
-    }
+    }    
 
-    withBlue(blue: ColorTranslatorInput): this & Pick<Ansi, "blue"> {
+    withBlue(...blue: ColorTranslatorInput): this & Pick<Ansi, "blue"> {
         return Object.assign(this, { blue: new ColorTranslator(...blue) });
     }
 
-    withMagenta(magenta: ColorTranslatorInput): this & Pick<Ansi, "magenta"> {
+    withMagenta(...magenta: ColorTranslatorInput): this & Pick<Ansi, "magenta"> {
         return Object.assign(this, { magenta: new ColorTranslator(...magenta) });
     }
 
-    withCyan(cyan: ColorTranslatorInput): this & Pick<Ansi, "cyan"> {
+    withCyan(...cyan: ColorTranslatorInput): this & Pick<Ansi, "cyan"> {
         return Object.assign(this, { cyan: new ColorTranslator(...cyan) });
     }
 
-    withWhite(white: ColorTranslatorInput): this & Pick<Ansi, "white"> {
+    withWhite(...white: ColorTranslatorInput): this & Pick<Ansi, "white"> {
         return Object.assign(this, { white: new ColorTranslator(...white) });
     }
 
-    withBrightBlack(brightBlack: ColorTranslatorInput): this & Pick<Ansi, "brightBlack"> {
+    withBrightBlack(...brightBlack: ColorTranslatorInput): this & Pick<Ansi, "brightBlack"> {
         return Object.assign(this, { brightBlack: new ColorTranslator(...brightBlack) });
     }
 
-    withBrightRed(brightRed: ColorTranslatorInput): this & Pick<Ansi, "brightRed"> {
+    withBrightRed(...brightRed: ColorTranslatorInput): this & Pick<Ansi, "brightRed"> {
         return Object.assign(this, { brightRed: new ColorTranslator(...brightRed) });
     }
 
-    withBrightGreen(brightGreen: ColorTranslatorInput): this & Pick<Ansi, "brightGreen"> {
+    withBrightGreen(...brightGreen: ColorTranslatorInput): this & Pick<Ansi, "brightGreen"> {
         return Object.assign(this, { brightGreen: new ColorTranslator(...brightGreen) });
     }
 
-    withBrightYellow(brightYellow: ColorTranslatorInput): this & Pick<Ansi, "brightYellow"> {
+    withBrightYellow(...brightYellow: ColorTranslatorInput): this & Pick<Ansi, "brightYellow"> {
         return Object.assign(this, { brightYellow: new ColorTranslator(...brightYellow) });
     }
 
-    withBrightBlue(brightBlue: ColorTranslatorInput): this & Pick<Ansi, "brightBlue"> {
+    withBrightBlue(...brightBlue: ColorTranslatorInput): this & Pick<Ansi, "brightBlue"> {
         return Object.assign(this, { brightBlue: new ColorTranslator(...brightBlue) });
     }
 
-    withBrightMagenta(brightMagenta: ColorTranslatorInput): this & Pick<Ansi, "brightMagenta"> {
+    withBrightMagenta(...brightMagenta: ColorTranslatorInput): this & Pick<Ansi, "brightMagenta"> {
         return Object.assign(this, { brightMagenta: new ColorTranslator(...brightMagenta) });
     }
 
-    withBrightCyan(brightCyan: ColorTranslatorInput): this & Pick<Ansi, "brightCyan"> {
+    withBrightCyan(...brightCyan: ColorTranslatorInput): this & Pick<Ansi, "brightCyan"> {
         return Object.assign(this, { brightCyan: new ColorTranslator(...brightCyan) });
     }
 
-    withBrightWhite(brightWhite: ColorTranslatorInput): this & Pick<Ansi, "brightWhite"> {
+    withBrightWhite(...brightWhite: ColorTranslatorInput): this & Pick<Ansi, "brightWhite"> {
         return Object.assign(this, { brightWhite: new ColorTranslator(...brightWhite) });
     }
 
@@ -185,11 +185,11 @@ class TerminalThemeBuilder implements Partial<TerminalTheme> {
     selectionBackground?: ColorTranslator;
     selectionForeground?: ColorTranslator;
 
-    withBackground(background: ColorTranslatorInput): this & Pick<TerminalTheme, "background"> {
+    withBackground(...background: ColorTranslatorInput): this & Pick<TerminalTheme, "background"> {
         return Object.assign(this, { background: new ColorTranslator(...background) });
     }
 
-    withForeground(foreground: ColorTranslatorInput): this & Pick<TerminalTheme, "foreground"> {
+    withForeground(...foreground: ColorTranslatorInput): this & Pick<TerminalTheme, "foreground"> {
         return Object.assign(this, { foreground: new ColorTranslator(...foreground) });
     }
 
@@ -197,23 +197,23 @@ class TerminalThemeBuilder implements Partial<TerminalTheme> {
         return Object.assign(this, { ansi });
     }
 
-    withCursorBackground(cursorBackground: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "cursorBackground">> {
+    withCursorBackground(...cursorBackground: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "cursorBackground">> {
         return Object.assign(this, { cursorBackground: new ColorTranslator(...cursorBackground) });
     }
 
-    withCursorBorder(cursorBorder: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "cursorBorder">> {
+    withCursorBorder(...cursorBorder: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "cursorBorder">> {
         return Object.assign(this, { cursorBorder: new ColorTranslator(...cursorBorder) });
     }
 
-    withCursorForeground(cursorForeground: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "cursorForeground">> {
+    withCursorForeground(...cursorForeground: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "cursorForeground">> {
         return Object.assign(this, { cursorForeground: new ColorTranslator(...cursorForeground) });
     }
 
-    withSelectionBackground(selectionBackground: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "selectionBackground">> {
+    withSelectionBackground(...selectionBackground: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "selectionBackground">> {
         return Object.assign(this, { selectionBackground: new ColorTranslator(...selectionBackground) });
     }
 
-    withSelectionForeground(selectionForeground: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "selectionForeground">> {
+    withSelectionForeground(...selectionForeground: ColorTranslatorInput): this & Required<Pick<TerminalTheme, "selectionForeground">> {
         return Object.assign(this, { selectionForeground: new ColorTranslator(...selectionForeground) });
     }
 
