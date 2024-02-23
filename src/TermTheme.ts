@@ -164,6 +164,8 @@ class TerminalTheme implements TerminalTheme {
         return terminalThemeBuilder
             .withBackground(data.colors.primary.background)
             .withForeground(data.colors.primary.foreground)
+            .withCursorForeground(data.colors.cursor.text)
+            .withCursorBackground(data.colors.cursor.cursor)
             .withAnsi(ansi)
             .build()
     }
