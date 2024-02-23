@@ -146,51 +146,6 @@ interface TerminalTheme {
     selectionForeground?:ColorTranslator
 }
 
-class TerminalTheme implements TerminalTheme {
-    constructor(terminalTheme: TerminalTheme) {
-        Object.assign(this, terminalTheme);
-    }
-
-    static fromAlacritty(themeText: string): TerminalTheme {
-        try {
-            var data = toml.parse(themeText);
-        } catch (err) {
-            throw new Error(`Parsing TOML failed: ${err}`)
-        }
-
-        const ansiBuilder = new AnsiBuilder()
-        const ansi = ansiBuilder
-            .withBlack(data.colors.normal.black)
-            .withRed(data.colors.normal.red)
-            .withGreen(data.colors.normal.green)
-            .withYellow(data.colors.normal.yellow)
-            .withBlue(data.colors.normal.blue)
-            .withMagenta(data.colors.normal.magenta)
-            .withCyan(data.colors.normal.cyan)
-            .withWhite(data.colors.normal.white)
-            .withBrightBlack(data.colors.bright.black)
-            .withBrightRed(data.colors.bright.red)
-            .withBrightGreen(data.colors.bright.green)
-            .withBrightYellow(data.colors.bright.yellow)
-            .withBrightBlue(data.colors.bright.blue)
-            .withBrightMagenta(data.colors.bright.magenta)
-            .withBrightCyan(data.colors.bright.cyan)
-            .withBrightWhite(data.colors.bright.white)
-            .build();
-        
-        const terminalThemeBuilder = new TerminalThemeBuilder()
-        return terminalThemeBuilder
-            .withBackground(data.colors.primary.background)
-            .withForeground(data.colors.primary.foreground)
-            .withCursorForeground(data.colors.cursor.text)
-            .withCursorBackground(data.colors.cursor.cursor)
-            .withAnsi(ansi)
-            .build()
-    }
-}
-
-export default TerminalTheme;
-
 class TerminalThemeBuilder implements Partial<TerminalTheme> {
     background?: ColorTranslator;
     foreground?: ColorTranslator;
@@ -239,3 +194,48 @@ class TerminalThemeBuilder implements Partial<TerminalTheme> {
         return new TerminalTheme(this);
     }
 }
+
+class TerminalTheme implements TerminalTheme {
+    constructor(terminalTheme: TerminalTheme) {
+        Object.assign(this, terminalTheme);
+    }
+
+    static fromAlacritty(themeText: string): TerminalTheme {
+        try {
+            var data = toml.parse(themeText);
+        } catch (err) {
+            throw new Error(`Parsing TOML failed: ${err}`)
+        }
+
+        const ansiBuilder = new AnsiBuilder()
+        const ansi = ansiBuilder
+            .withBlack(data.colors.normal.black)
+            .withRed(data.colors.normal.red)
+            .withGreen(data.colors.normal.green)
+            .withYellow(data.colors.normal.yellow)
+            .withBlue(data.colors.normal.blue)
+            .withMagenta(data.colors.normal.magenta)
+            .withCyan(data.colors.normal.cyan)
+            .withWhite(data.colors.normal.white)
+            .withBrightBlack(data.colors.bright.black)
+            .withBrightRed(data.colors.bright.red)
+            .withBrightGreen(data.colors.bright.green)
+            .withBrightYellow(data.colors.bright.yellow)
+            .withBrightBlue(data.colors.bright.blue)
+            .withBrightMagenta(data.colors.bright.magenta)
+            .withBrightCyan(data.colors.bright.cyan)
+            .withBrightWhite(data.colors.bright.white)
+            .build();
+        
+        const terminalThemeBuilder = new TerminalThemeBuilder()
+        return terminalThemeBuilder
+            .withBackground(data.colors.primary.background)
+            .withForeground(data.colors.primary.foreground)
+            .withCursorForeground(data.colors.cursor.text)
+            .withCursorBackground(data.colors.cursor.cursor)
+            .withAnsi(ansi)
+            .build()
+    }
+}
+
+export default TerminalTheme;
