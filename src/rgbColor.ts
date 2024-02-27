@@ -10,7 +10,7 @@ export function fromHex(hex: string): RgbColor {
     }
 
     if (hex.length !== 6) {
-        throw new Error(`could not create RgbColor: expected 6 digit RGB string, got ${hex.length} digit`)
+        throw new Error(`could not create RgbColor: expected 6 digit RGB string, got "${hex}"`)
     }
 
     const red = parseInt(hex.substring(0, 2), 16);
