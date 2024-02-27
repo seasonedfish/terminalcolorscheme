@@ -1,4 +1,4 @@
-export default interface RgbColor {
+export interface RgbColor {
     r: number; // 0 to 255
     g: number;
     b: number;

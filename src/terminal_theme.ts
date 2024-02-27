@@ -1,6 +1,6 @@
 import toml from "toml";
 import * as rgb_color from "./rgb_color.js";
-import RgbColor from "./rgb_color.js";
+import { RgbColor } from "./rgb_color.js";
 
 export interface Ansi {
     black: RgbColor;
@@ -22,7 +22,7 @@ export interface Ansi {
     brightWhite: RgbColor;
 }
 
-export default interface TerminalTheme {
+export interface TerminalTheme {
     background: RgbColor
     foreground: RgbColor
     ansi: Ansi
