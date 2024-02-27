@@ -1,5 +1,5 @@
-import TerminalTheme from "./TerminalTheme.js";
-import * as terminalTheme from "./TerminalTheme.js";
+import TerminalTheme from "./terminalTheme.js";
+import * as terminalTheme from "./terminalTheme.js";
 
 import fs from "node:fs";
 

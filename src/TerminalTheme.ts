@@ -1,6 +1,6 @@
 import toml from "toml";
 import * as rgbColor from "./rgbColor.js";
-import { RgbColor } from "./rgbColor.js";
+import RgbColor from "./rgbColor.js";
 
 export interface Ansi {
     black: RgbColor;
