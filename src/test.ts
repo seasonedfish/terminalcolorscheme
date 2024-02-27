@@ -8,3 +8,5 @@ const str = file.toString()
 const theme = terminal_theme.fromAlacritty(str)
 
 console.log(theme)
+
+console.log(terminal_theme.toWezTerm(theme))

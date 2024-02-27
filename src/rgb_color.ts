@@ -23,3 +23,7 @@ export function fromHex(hex: string): RgbColor {
         b: blue
     };
 }
+
+export function toHex(rgbColor: RgbColor): string {
+    return `#${rgbColor.r.toString(16)}${rgbColor.g.toString(16)}${rgbColor.b.toString(16)}`
+}
