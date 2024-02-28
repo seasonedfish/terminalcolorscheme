@@ -85,16 +85,16 @@ ansi = [
 	].map((color) => `'${rgb_color.toHex(color)}'`).join(",\n\t")}
 ]
 brights = [
-    ${[
-        terminalTheme.ansi.brightBlack,
-        terminalTheme.ansi.brightRed,
-        terminalTheme.ansi.brightGreen,
-        terminalTheme.ansi.brightYellow,
-        terminalTheme.ansi.brightBlue,
-        terminalTheme.ansi.brightMagenta,
-        terminalTheme.ansi.brightCyan,
-        terminalTheme.ansi.brightWhite,
-    ].map((color) => `'${rgb_color.toHex(color)}'`).join(",\n\t")}
+	${[
+		terminalTheme.ansi.brightBlack,
+		terminalTheme.ansi.brightRed,
+		terminalTheme.ansi.brightGreen,
+		terminalTheme.ansi.brightYellow,
+		terminalTheme.ansi.brightBlue,
+		terminalTheme.ansi.brightMagenta,
+		terminalTheme.ansi.brightCyan,
+		terminalTheme.ansi.brightWhite,
+	].map((color) => `'${rgb_color.toHex(color)}'`).join(",\n\t")}
 ]
 
 background = '${rgb_color.toHex(terminalTheme.background)}'
