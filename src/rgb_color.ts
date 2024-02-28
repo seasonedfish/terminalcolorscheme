@@ -24,6 +24,16 @@ export function fromHex(hex: string): RgbColor {
     };
 }
 
+function componentToHex(component: number): string {
+    var converted = component.toString(16);
+
+    // Pad with zero if it's one digit
+    if (converted.length == 1) {
+        converted = `0${converted}`;
+    }
+    return converted;
+}
+
 export function toHex(rgbColor: RgbColor): string {
-    return `#${rgbColor.r.toString(16)}${rgbColor.g.toString(16)}${rgbColor.b.toString(16)}`
+    return `#${componentToHex(rgbColor.r)}${componentToHex(rgbColor.g)}${componentToHex(rgbColor.b)}`
 }
