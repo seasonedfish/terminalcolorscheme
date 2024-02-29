@@ -21,3 +21,13 @@ test("create RgbColor from hex without pound sign", ({ expect }) => {
     expect(color.g).toBe(123);
     expect(color.b).toBe(182);
 });
+
+test("inequality of two different RgbColors", ({ expect }) => {
+    const color1 = rgb_color.fromHex("#8BC59C");
+    const color2 = rgb_color.fromHex("#1F1F1F");
+    expect(color1.r).not.toBe(color2.r);
+    expect(color1.g).not.toBe(color2.g);
+    expect(color1.b).not.toBe(color2.b);
+    expect(color1).not.toEqual(color2);
+});
+
