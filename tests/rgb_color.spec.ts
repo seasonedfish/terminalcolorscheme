@@ -1,5 +1,6 @@
 import { test } from '@japa/runner';
 import * as rgb_color from "../src/rgb_color";
+import { RgbColor } from "../src/rgb_color";
 
 test("create RgbColor from hex", ({ expect }) => {
     const color = rgb_color.fromHex("#4d5d53");
@@ -31,3 +32,7 @@ test("inequality of two different RgbColors", ({ expect }) => {
     expect(color1).not.toEqual(color2);
 });
 
+test("export to hex", ({ expect }) => {
+    const color: RgbColor = {r: 113, g: 56, b: 6};
+    expect(rgb_color.toHex(color)).toBe("#713806");
+})
