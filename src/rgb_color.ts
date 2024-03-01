@@ -4,7 +4,7 @@ export interface RgbColor {
     b: number;
 }
 
-export function fromHex(hex: string): RgbColor {
+export function rgbColorFromHex(hex: string): RgbColor {
     if (hex[0] === "#") {
         hex = hex.substring(1);
     }
@@ -34,6 +34,6 @@ function componentToHex(component: number): string {
     return converted;
 }
 
-export function toHex(rgbColor: RgbColor): string {
+export function rgbColorToHex(rgbColor: RgbColor): string {
     return `#${componentToHex(rgbColor.r)}${componentToHex(rgbColor.g)}${componentToHex(rgbColor.b)}`
 }

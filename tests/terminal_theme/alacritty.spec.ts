@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { terminal_theme } from "../../src/main"
+import { terminalThemeFromAlacritty } from "../../src/main"
 
 test("import Alacritty theme", () => {
     /* 
@@ -53,6 +53,6 @@ yellow = "#B77E64"
 background = "#1C1917"
 foreground = "#B4BDC3"
 `
-    const theme = terminal_theme.fromAlacritty(themeText);
+    const theme = terminalThemeFromAlacritty(themeText);
     expect(theme.ansi.brightBlack).toEqual({r: 64, g: 56, b: 51});
 });

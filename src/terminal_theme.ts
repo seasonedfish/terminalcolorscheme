@@ -1,6 +1,5 @@
 import toml from "toml";
-import * as rgb_color from "./rgb_color.js";
-import { RgbColor } from "./rgb_color.js";
+import { RgbColor, rgbColorFromHex, rgbColorToHex } from "./rgb_color";
 
 export interface Ansi {
 	black: RgbColor;
@@ -35,7 +34,7 @@ export interface TerminalTheme {
 	selectionForeground?: RgbColor
 }
 
-export function fromAlacritty(themeText: string): TerminalTheme {
+export function terminalThemeFromAlacritty(themeText: string): TerminalTheme {
 	try {
 		var data = toml.parse(themeText);
 	} catch (err) {
@@ -43,34 +42,34 @@ export function fromAlacritty(themeText: string): TerminalTheme {
 	}
 
 	const ansi: Ansi = {
-		black: rgb_color.fromHex(data.colors.normal.black),
-		red: rgb_color.fromHex(data.colors.normal.red),
-		green: rgb_color.fromHex(data.colors.normal.green),
-		yellow: rgb_color.fromHex(data.colors.normal.yellow),
-		blue: rgb_color.fromHex(data.colors.normal.blue),
-		magenta: rgb_color.fromHex(data.colors.normal.magenta),
-		cyan: rgb_color.fromHex(data.colors.normal.cyan),
-		white: rgb_color.fromHex(data.colors.normal.white),
-		brightBlack: rgb_color.fromHex(data.colors.bright.black),
-		brightRed: rgb_color.fromHex(data.colors.bright.red),
-		brightGreen: rgb_color.fromHex(data.colors.bright.green),
-		brightYellow: rgb_color.fromHex(data.colors.bright.yellow),
-		brightBlue: rgb_color.fromHex(data.colors.bright.blue),
-		brightMagenta: rgb_color.fromHex(data.colors.bright.magenta),
-		brightCyan: rgb_color.fromHex(data.colors.bright.cyan),
-		brightWhite: rgb_color.fromHex(data.colors.bright.white)
+		black: rgbColorFromHex(data.colors.normal.black),
+		red: rgbColorFromHex(data.colors.normal.red),
+		green: rgbColorFromHex(data.colors.normal.green),
+		yellow: rgbColorFromHex(data.colors.normal.yellow),
+		blue: rgbColorFromHex(data.colors.normal.blue),
+		magenta: rgbColorFromHex(data.colors.normal.magenta),
+		cyan: rgbColorFromHex(data.colors.normal.cyan),
+		white: rgbColorFromHex(data.colors.normal.white),
+		brightBlack: rgbColorFromHex(data.colors.bright.black),
+		brightRed: rgbColorFromHex(data.colors.bright.red),
+		brightGreen: rgbColorFromHex(data.colors.bright.green),
+		brightYellow: rgbColorFromHex(data.colors.bright.yellow),
+		brightBlue: rgbColorFromHex(data.colors.bright.blue),
+		brightMagenta: rgbColorFromHex(data.colors.bright.magenta),
+		brightCyan: rgbColorFromHex(data.colors.bright.cyan),
+		brightWhite: rgbColorFromHex(data.colors.bright.white)
 	};
 
 	return {
-		background: rgb_color.fromHex(data.colors.primary.background),
-		foreground: rgb_color.fromHex(data.colors.primary.foreground),
+		background: rgbColorFromHex(data.colors.primary.background),
+		foreground: rgbColorFromHex(data.colors.primary.foreground),
 		ansi: ansi,
-		cursorForeground: rgb_color.fromHex(data.colors.cursor.text),
-		cursorBackground: rgb_color.fromHex(data.colors.cursor.cursor),
+		cursorForeground: rgbColorFromHex(data.colors.cursor.text),
+		cursorBackground: rgbColorFromHex(data.colors.cursor.cursor),
 	}
 }
 
-export function toWezTerm(terminalTheme: TerminalTheme): string {
+export function terminalThemeToWezTerm(terminalTheme: TerminalTheme): string {
 	const theme = `[colors]
 ansi = [
 	${[
@@ -82,7 +81,7 @@ ansi = [
 		terminalTheme.ansi.magenta,
 		terminalTheme.ansi.cyan,
 		terminalTheme.ansi.white,
-	].map((color) => `'${rgb_color.toHex(color)}'`).join(",\n\t")}
+	].map((color) => `'${rgbColorToHex(color)}'`).join(",\n\t")}
 ]
 brights = [
 	${[
@@ -94,11 +93,11 @@ brights = [
 		terminalTheme.ansi.brightMagenta,
 		terminalTheme.ansi.brightCyan,
 		terminalTheme.ansi.brightWhite,
-	].map((color) => `'${rgb_color.toHex(color)}'`).join(",\n\t")}
+	].map((color) => `'${rgbColorToHex(color)}'`).join(",\n\t")}
 ]
 
-background = '${rgb_color.toHex(terminalTheme.background)}'
-foreground = '${rgb_color.toHex(terminalTheme.foreground)}'`;
+background = '${rgbColorToHex(terminalTheme.background)}'
+foreground = '${rgbColorToHex(terminalTheme.foreground)}'`;
 
 	return theme;
 }
