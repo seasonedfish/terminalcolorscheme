@@ -1,24 +1,19 @@
 {
-  "name": "terminalthemeconverter",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "pnpm tsx bin/test.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "name": "termthemeconverter",
+  "private": true,
+  "version": "0.0.0",
   "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
   "devDependencies": {
-    "@japa/expect": "3.0.0-1",
-    "@japa/runner": "3.0.0-9",
-    "@types/node": "^20.11.20",
-    "tsx": "^4.7.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.2.2",
+    "vite": "^5.1.4",
+    "vitest": "^1.3.1"
   },
   "dependencies": {
-    "colortranslator": "^4.1.0",
     "toml": "^3.0.0"
   }
 }
