@@ -1,5 +1,5 @@
 import toml from "toml";
-import { RgbColor, rgbColorFromHex, rgbColorToHex } from "./rgb_color";
+import { RgbColor } from "./rgb_color";
 
 export interface Ansi {
 	black: RgbColor;
@@ -42,30 +42,30 @@ export function terminalThemeFromAlacritty(themeText: string): TerminalTheme {
 	}
 
 	const ansi: Ansi = {
-		black: rgbColorFromHex(data.colors.normal.black),
-		red: rgbColorFromHex(data.colors.normal.red),
-		green: rgbColorFromHex(data.colors.normal.green),
-		yellow: rgbColorFromHex(data.colors.normal.yellow),
-		blue: rgbColorFromHex(data.colors.normal.blue),
-		magenta: rgbColorFromHex(data.colors.normal.magenta),
-		cyan: rgbColorFromHex(data.colors.normal.cyan),
-		white: rgbColorFromHex(data.colors.normal.white),
-		brightBlack: rgbColorFromHex(data.colors.bright.black),
-		brightRed: rgbColorFromHex(data.colors.bright.red),
-		brightGreen: rgbColorFromHex(data.colors.bright.green),
-		brightYellow: rgbColorFromHex(data.colors.bright.yellow),
-		brightBlue: rgbColorFromHex(data.colors.bright.blue),
-		brightMagenta: rgbColorFromHex(data.colors.bright.magenta),
-		brightCyan: rgbColorFromHex(data.colors.bright.cyan),
-		brightWhite: rgbColorFromHex(data.colors.bright.white)
+		black: RgbColor.fromHex(data.colors.normal.black),
+		red: RgbColor.fromHex(data.colors.normal.red),
+		green: RgbColor.fromHex(data.colors.normal.green),
+		yellow: RgbColor.fromHex(data.colors.normal.yellow),
+		blue: RgbColor.fromHex(data.colors.normal.blue),
+		magenta: RgbColor.fromHex(data.colors.normal.magenta),
+		cyan: RgbColor.fromHex(data.colors.normal.cyan),
+		white: RgbColor.fromHex(data.colors.normal.white),
+		brightBlack: RgbColor.fromHex(data.colors.bright.black),
+		brightRed: RgbColor.fromHex(data.colors.bright.red),
+		brightGreen: RgbColor.fromHex(data.colors.bright.green),
+		brightYellow: RgbColor.fromHex(data.colors.bright.yellow),
+		brightBlue: RgbColor.fromHex(data.colors.bright.blue),
+		brightMagenta: RgbColor.fromHex(data.colors.bright.magenta),
+		brightCyan: RgbColor.fromHex(data.colors.bright.cyan),
+		brightWhite: RgbColor.fromHex(data.colors.bright.white)
 	};
 
 	return {
-		background: rgbColorFromHex(data.colors.primary.background),
-		foreground: rgbColorFromHex(data.colors.primary.foreground),
+		background: RgbColor.fromHex(data.colors.primary.background),
+		foreground: RgbColor.fromHex(data.colors.primary.foreground),
 		ansi: ansi,
-		cursorForeground: rgbColorFromHex(data.colors.cursor.text),
-		cursorBackground: rgbColorFromHex(data.colors.cursor.cursor),
+		cursorForeground: RgbColor.fromHex(data.colors.cursor.text),
+		cursorBackground: RgbColor.fromHex(data.colors.cursor.cursor),
 	}
 }
 
@@ -81,7 +81,7 @@ ansi = [
 		terminalTheme.ansi.magenta,
 		terminalTheme.ansi.cyan,
 		terminalTheme.ansi.white,
-	].map((color) => `'${rgbColorToHex(color)}'`).join(",\n\t")}
+	].map((color) => `'${color.toHex}'`).join(",\n\t")}
 ]
 brights = [
 	${[
@@ -93,11 +93,11 @@ brights = [
 		terminalTheme.ansi.brightMagenta,
 		terminalTheme.ansi.brightCyan,
 		terminalTheme.ansi.brightWhite,
-	].map((color) => `'${rgbColorToHex(color)}'`).join(",\n\t")}
+	].map((color) => `'${color.toHex}'`).join(",\n\t")}
 ]
 
-background = '${rgbColorToHex(terminalTheme.background)}'
-foreground = '${rgbColorToHex(terminalTheme.foreground)}'`;
+background = '${terminalTheme.background.toHex()}'
+foreground = '${terminalTheme.foreground.toHex()}'`;
 
 	return theme;
 }
