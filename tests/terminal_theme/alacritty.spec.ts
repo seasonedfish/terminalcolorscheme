@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import * as terminal_theme from "../../src/terminal_theme"
+import { terminal_theme } from "../../src/main"
 
 test("import Alacritty theme", () => {
     /* 

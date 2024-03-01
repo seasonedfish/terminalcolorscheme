@@ -1,6 +1,5 @@
 import { expect, test } from 'vitest'
-import * as rgb_color from "../src/rgb_color";
-import { RgbColor } from "../src/rgb_color";
+import { rgb_color, RgbColor } from "../src/main";
 
 test("create RgbColor from hex", () => {
     const color = rgb_color.fromHex("#4d5d53");
