@@ -1,2 +1,2 @@
-export * from "./rgb_color";
-export * from "./terminal_theme";
+export * from "./rgbcolor";
+export * from "./terminalcolorscheme";

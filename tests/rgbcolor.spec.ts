@@ -33,5 +33,5 @@ test("inequality of two different RgbColors", () => {
 
 test("export to hex", () => {
     const color = new RgbColor(113, 56, 6);
-    expect(color.toHex).toBe("#713806");
+    expect(color.toHex()).toBe("#713806");
 })

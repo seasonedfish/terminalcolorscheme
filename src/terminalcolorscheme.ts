@@ -1,5 +1,5 @@
 import toml from "toml";
-import { RgbColor } from "./rgb_color";
+import { RgbColor } from "./rgbcolor";
 
 export interface Ansi {
 	black: RgbColor;
@@ -21,7 +21,7 @@ export interface Ansi {
 	brightWhite: RgbColor;
 }
 
-export interface TerminalTheme {
+export interface TerminalColorScheme {
 	background: RgbColor
 	foreground: RgbColor
 	ansi: Ansi
@@ -34,9 +34,9 @@ export interface TerminalTheme {
 	selectionForeground?: RgbColor
 }
 
-export function terminalThemeFromAlacritty(themeText: string): TerminalTheme {
+export function terminalColorSchemeFromAlacritty(colorSchemeText: string): TerminalColorScheme {
 	try {
-		var data = toml.parse(themeText);
+		var data = toml.parse(colorSchemeText);
 	} catch (err) {
 		throw new Error(`Parsing TOML failed: ${err}`)
 	}
@@ -69,35 +69,35 @@ export function terminalThemeFromAlacritty(themeText: string): TerminalTheme {
 	}
 }
 
-export function terminalThemeToWezTerm(terminalTheme: TerminalTheme): string {
-	const theme = `[colors]
+export function terminalColorSchemeToWezTerm(terminalColorScheme: TerminalColorScheme): string {
+	const colorSchemeText = `[colors]
 ansi = [
 	${[
-		terminalTheme.ansi.black,
-		terminalTheme.ansi.red,
-		terminalTheme.ansi.green,
-		terminalTheme.ansi.yellow,
-		terminalTheme.ansi.blue,
-		terminalTheme.ansi.magenta,
-		terminalTheme.ansi.cyan,
-		terminalTheme.ansi.white,
+		terminalColorScheme.ansi.black,
+		terminalColorScheme.ansi.red,
+		terminalColorScheme.ansi.green,
+		terminalColorScheme.ansi.yellow,
+		terminalColorScheme.ansi.blue,
+		terminalColorScheme.ansi.magenta,
+		terminalColorScheme.ansi.cyan,
+		terminalColorScheme.ansi.white,
 	].map((color) => `'${color.toHex}'`).join(",\n\t")}
 ]
 brights = [
 	${[
-		terminalTheme.ansi.brightBlack,
-		terminalTheme.ansi.brightRed,
-		terminalTheme.ansi.brightGreen,
-		terminalTheme.ansi.brightYellow,
-		terminalTheme.ansi.brightBlue,
-		terminalTheme.ansi.brightMagenta,
-		terminalTheme.ansi.brightCyan,
-		terminalTheme.ansi.brightWhite,
+		terminalColorScheme.ansi.brightBlack,
+		terminalColorScheme.ansi.brightRed,
+		terminalColorScheme.ansi.brightGreen,
+		terminalColorScheme.ansi.brightYellow,
+		terminalColorScheme.ansi.brightBlue,
+		terminalColorScheme.ansi.brightMagenta,
+		terminalColorScheme.ansi.brightCyan,
+		terminalColorScheme.ansi.brightWhite,
 	].map((color) => `'${color.toHex}'`).join(",\n\t")}
 ]
 
-background = '${terminalTheme.background.toHex()}'
-foreground = '${terminalTheme.foreground.toHex()}'`;
+background = '${terminalColorScheme.background.toHex()}'
+foreground = '${terminalColorScheme.foreground.toHex()}'`;
 
-	return theme;
+	return colorSchemeText;
 }
