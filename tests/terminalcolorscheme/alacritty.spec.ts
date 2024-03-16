@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { terminalColorSchemeFromAlacritty } from "../../src/main"
+import { RgbColor, TerminalColorScheme } from "../../src/main"
 
 test("import Alacritty color scheme", () => {
     /* 
@@ -53,6 +53,6 @@ yellow = "#B77E64"
 background = "#1C1917"
 foreground = "#B4BDC3"
 `
-    const scheme = terminalColorSchemeFromAlacritty(schemeText);
+    const scheme = TerminalColorScheme.fromAlacritty(schemeText);
     expect(scheme.ansi.brightBlack).toEqual({r: 64, g: 56, b: 51});
 });
