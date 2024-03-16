@@ -1,17 +1,17 @@
 {
-  "name": "terminalthemeconverter",
+  "name": "terminalcolorscheme",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "./dist/terminalthemeconverter.umd.js",
-  "module": "./dist/terminalthemeconverter.es.js",
+  "main": "./dist/terminalcolorscheme.umd.js",
+  "module": "./dist/terminalcolorscheme.es.js",
   "exports": {
     ".": {
-      "import": "./dist/terminalthemeconverter.es.js",
-      "require": "./dist/terminalthemeconverter.umd.js"
+      "import": "./dist/terminalcolorscheme.es.js",
+      "require": "./dist/terminalcolorscheme.umd.js"
     }
   },
   "scripts": {

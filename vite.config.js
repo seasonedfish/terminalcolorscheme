@@ -5,7 +5,7 @@ export default defineConfig({
 	build: {
 		lib: {
 			entry: path.resolve(__dirname, "src/main.ts"),
-			name: "terminalthemeconverter",
+			name: "terminalcolorscheme",
 		},
 	}
 })
