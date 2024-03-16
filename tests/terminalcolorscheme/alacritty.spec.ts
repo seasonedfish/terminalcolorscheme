@@ -54,5 +54,5 @@ background = "#1C1917"
 foreground = "#B4BDC3"
 `
     const scheme = TerminalColorScheme.fromAlacritty(schemeText);
-    expect(scheme.ansi.brightBlack).toEqual({r: 0x40, g: 0x38, b: 0x33});
+    expect(scheme.ansi.brightBlack).toEqual(new RgbColor(0x40, 0x38, 0x33));
 });
