@@ -120,4 +120,65 @@ foreground = '${this.foreground.toHex()}'`;
 
 		return colorSchemeText;
 	}
+
+	toWindowTerminal(): string {
+		type WindowsTerminalColorScheme = {
+			name: string
+			cursorColor?: string;
+			selectionBackground?: string;
+			background: string;
+			foreground: string;
+			black: string;
+			blue: string;
+			cyan: string;
+			green: string;
+			purple: string;
+			red: string;
+			white: string;
+			yellow: string;
+			brightBlack: string;
+			brightBlue: string;
+			brightCyan: string;
+			brightGreen: string;
+			brightPurple: string;
+			brightRed: string;
+			brightWhite: string;
+			brightYellow: string;
+		}
+
+		const colorSchemeObject: WindowsTerminalColorScheme = {
+			"name": "Untitled",
+		
+			"background": this.background.toHex(),
+			"foreground": this.foreground.toHex(),
+		
+			"black": this.ansi.black.toHex(),
+			"blue": this.ansi.blue.toHex(),
+			"cyan": this.ansi.cyan.toHex(),
+			"green": this.ansi.green.toHex(),
+			"purple": this.ansi.magenta.toHex(),
+			"red": this.ansi.red.toHex(),
+			"white": this.ansi.white.toHex(),
+			"yellow": this.ansi.yellow.toHex(),
+		
+			"brightBlack": this.ansi.brightBlack.toHex(),
+			"brightBlue": this.ansi.brightBlue.toHex(),
+			"brightCyan": this.ansi.brightCyan.toHex(),
+			"brightGreen": this.ansi.brightGreen.toHex(),
+			"brightPurple": this.ansi.brightMagenta.toHex(),
+			"brightRed": this.ansi.brightRed.toHex(),
+			"brightWhite": this.ansi.brightWhite.toHex(),
+			"brightYellow": this.ansi.brightYellow.toHex()
+		};
+
+		if (typeof this.cursorBackground !== "undefined") {
+			colorSchemeObject.cursorColor = this.cursorBackground.toHex();
+		}
+
+		if (typeof this.selectionBackground !== "undefined") {
+			colorSchemeObject.selectionBackground = this.selectionBackground.toHex();
+		}
+
+		return JSON.stringify(colorSchemeObject);
+	}
 }
