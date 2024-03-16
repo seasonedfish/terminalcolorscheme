@@ -32,6 +32,8 @@ export interface ITerminalColorScheme {
 
 	selectionBackground?: RgbColor
 	selectionForeground?: RgbColor
+
+	name?: string
 }
 
 export class TerminalColorScheme implements ITerminalColorScheme {
@@ -48,6 +50,8 @@ export class TerminalColorScheme implements ITerminalColorScheme {
 
 	selectionBackground?: RgbColor
 	selectionForeground?: RgbColor
+
+	name?: string
 
 	constructor(object: ITerminalColorScheme) {
         Object.assign(this, object);
@@ -147,7 +151,7 @@ foreground = '${this.foreground.toHex()}'`;
 		}
 
 		const colorSchemeObject: WindowsTerminalColorScheme = {
-			"name": "Untitled",
+			"name": this.name ?? "Unnamed",
 		
 			"background": this.background.toHex(),
 			"foreground": this.foreground.toHex(),
