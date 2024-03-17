@@ -44,7 +44,7 @@ export class Ansi implements IAnsi {
         Object.assign(this, object);
     }
 
-	normalColors(): Iterable<RgbColor> {
+	normalColors(): Array<RgbColor> {
 		return [
 			this.black,
 			this.red,
@@ -57,7 +57,7 @@ export class Ansi implements IAnsi {
 		]
 	}
 
-	brightColors(): Iterable<RgbColor> {
+	brightColors(): Array<RgbColor> {
 		return [
 			this.brightBlack,
 			this.brightRed,
@@ -70,7 +70,7 @@ export class Ansi implements IAnsi {
 		]
 	}
 
-	colors(): Iterable<RgbColor> {
+	colors(): Array<RgbColor> {
 		return [...this.normalColors(), ...this.brightColors()]
 	}
 }
@@ -149,28 +149,16 @@ export class TerminalColorScheme implements ITerminalColorScheme {
 	toWezTerm(): string {
 		const colorSchemeText = `[colors]
 ansi = [
-	${[
-		this.ansi.black,
-		this.ansi.red,
-		this.ansi.green,
-		this.ansi.yellow,
-		this.ansi.blue,
-		this.ansi.magenta,
-		this.ansi.cyan,
-		this.ansi.white,
-	].map((color) => `'${color.toHex}'`).join(",\n\t")}
+	${this.ansi.normalColors()
+		.map((color) => `'${color.toHex}'`)
+		.join(",\n\t")
+	}
 ]
 brights = [
-	${[
-		this.ansi.brightBlack,
-		this.ansi.brightRed,
-		this.ansi.brightGreen,
-		this.ansi.brightYellow,
-		this.ansi.brightBlue,
-		this.ansi.brightMagenta,
-		this.ansi.brightCyan,
-		this.ansi.brightWhite,
-	].map((color) => `'${color.toHex}'`).join(",\n\t")}
+	${this.ansi.brightColors()
+		.map((color) => `'${color.toHex}'`)
+		.join(",\n\t")
+	}
 ]
 
 background = '${this.background.toHex()}'
@@ -239,4 +227,6 @@ foreground = '${this.foreground.toHex()}'`;
 
 		return JSON.stringify(colorSchemeObject);
 	}
+
+	
 }
