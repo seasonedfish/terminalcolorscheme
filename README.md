@@ -8,3 +8,4 @@ A TypeScript library for converting color schemes between different terminal for
 ### Export
 - WezTerm
 - Windows Terminal
+- Ghostty
