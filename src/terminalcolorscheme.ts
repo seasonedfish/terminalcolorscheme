@@ -150,13 +150,13 @@ export class TerminalColorScheme implements ITerminalColorScheme {
 		const colorSchemeText = `[colors]
 ansi = [
 	${this.ansi.normalColors()
-		.map((color) => `'${color.toHex}'`)
+		.map((color) => `'${color.toHex()}'`)
 		.join(",\n\t")
 	}
 ]
 brights = [
 	${this.ansi.brightColors()
-		.map((color) => `'${color.toHex}'`)
+		.map((color) => `'${color.toHex()}'`)
 		.join(",\n\t")
 	}
 ]
