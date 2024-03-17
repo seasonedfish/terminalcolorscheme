@@ -21,10 +21,64 @@ export interface IAnsi {
 	brightWhite: RgbColor;
 }
 
+export class Ansi implements IAnsi {
+	black!: RgbColor;
+	red!: RgbColor;
+	green!: RgbColor;
+	yellow!: RgbColor;
+	blue!: RgbColor;
+	magenta!: RgbColor;
+	cyan!: RgbColor;
+	white!: RgbColor;
+
+	brightBlack!: RgbColor;
+	brightRed!: RgbColor;
+	brightGreen!: RgbColor;
+	brightYellow!: RgbColor;
+	brightBlue!: RgbColor;
+	brightMagenta!: RgbColor;
+	brightCyan!: RgbColor;
+	brightWhite!: RgbColor;
+
+	constructor(object: IAnsi) {
+        Object.assign(this, object);
+    }
+
+	normalColors(): Iterable<RgbColor> {
+		return [
+			this.black,
+			this.red,
+			this.green,
+			this.yellow,
+			this.blue,
+			this.magenta,
+			this.cyan,
+			this.white,
+		]
+	}
+
+	brightColors(): Iterable<RgbColor> {
+		return [
+			this.brightBlack,
+			this.brightRed,
+			this.brightGreen,
+			this.brightYellow,
+			this.brightBlue,
+			this.brightMagenta,
+			this.brightCyan,
+			this.brightWhite,
+		]
+	}
+
+	colors(): Iterable<RgbColor> {
+		return [...this.normalColors(), ...this.brightColors()]
+	}
+}
+
 export interface ITerminalColorScheme {
 	background: RgbColor
 	foreground: RgbColor
-	ansi: IAnsi
+	ansi: Ansi
 
 	cursorBackground?: RgbColor
 	cursorBorder?: RgbColor
@@ -42,7 +96,7 @@ export class TerminalColorScheme implements ITerminalColorScheme {
 	// https://www.ryadel.com/en/ts2564-ts-property-has-no-initializer-typescript-error-fix-visual-studio-2017-vs2017/
 	background!: RgbColor
 	foreground!: RgbColor
-	ansi!: IAnsi
+	ansi!: Ansi
 
 	cursorBackground?: RgbColor
 	cursorBorder?: RgbColor
@@ -64,7 +118,7 @@ export class TerminalColorScheme implements ITerminalColorScheme {
 			throw new Error(`Parsing TOML failed: ${err}`)
 		}
 	
-		const ansi: IAnsi = {
+		const ansi = new Ansi({
 			black: RgbColor.fromHex(data.colors.normal.black),
 			red: RgbColor.fromHex(data.colors.normal.red),
 			green: RgbColor.fromHex(data.colors.normal.green),
@@ -81,7 +135,7 @@ export class TerminalColorScheme implements ITerminalColorScheme {
 			brightMagenta: RgbColor.fromHex(data.colors.bright.magenta),
 			brightCyan: RgbColor.fromHex(data.colors.bright.cyan),
 			brightWhite: RgbColor.fromHex(data.colors.bright.white)
-		};
+		});
 	
 		return new TerminalColorScheme({
 			background: RgbColor.fromHex(data.colors.primary.background),
