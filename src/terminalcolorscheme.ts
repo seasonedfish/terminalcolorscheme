@@ -228,5 +228,28 @@ foreground = '${this.foreground.toHex()}'`;
 		return JSON.stringify(colorSchemeObject);
 	}
 
-	
+	toGhostty(): string {
+		var colorSchemeText = `background = ${this.background.toHex()}
+foreground = ${this.foreground.toHex()}
+
+${this.ansi.colors()
+	.map((color, index) => `palette = ${index}=${color.toHex()}`)
+	.join("\n")
+}
+`;
+
+		if (typeof this.selectionBackground !== "undefined") {
+			colorSchemeText += `\nselection-background = ${this.selectionBackground.toHex()}`;
+		}
+		if (typeof this.selectionForeground !== "undefined") {
+			colorSchemeText += `\nselection-foreground = ${this.selectionForeground.toHex()}`;
+		}
+		if (typeof this.cursorBackground !== "undefined") {
+			colorSchemeText += `\ncursor-color = ${this.cursorBackground.toHex()}`;
+		}
+		if (typeof this.cursorForeground !== "undefined") {
+			colorSchemeText += `\ncursor-text = ${this.cursorForeground.toHex()}`;
+		}
+		return colorSchemeText;
+	}
 }
