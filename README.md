@@ -1,4 +1,6 @@
 # terminalcolorscheme
+[![NPM Version](https://img.shields.io/npm/v/terminalcolorscheme)](https://www.npmjs.com/package/terminalcolorscheme)
+
 A TypeScript library for converting color schemes between different terminal formats. (Work in progress!)
 
 ## Supported formats
