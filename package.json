@@ -6,10 +6,10 @@
     "dist"
   ],
   "main": "./dist/terminalcolorscheme.umd.js",
-  "module": "./dist/terminalcolorscheme.es.js",
+  "module": "./dist/terminalcolorscheme.js",
   "exports": {
     ".": {
-      "import": "./dist/terminalcolorscheme.es.js",
+      "import": "./dist/terminalcolorscheme.js",
       "require": "./dist/terminalcolorscheme.umd.js"
     }
   },
