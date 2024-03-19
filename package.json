@@ -28,5 +28,10 @@
   },
   "dependencies": {
     "toml": "^3.0.0"
+  },
+  "license": "BSD-2-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seasonedfish/terminalcolorscheme.git"
   }
 }
