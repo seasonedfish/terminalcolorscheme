@@ -1,3 +1,6 @@
+/**
+ * Represents a color in RGB.
+ */
 export class RgbColor {
     r: number; // 0 to 255
     g: number;
@@ -9,6 +12,9 @@ export class RgbColor {
         this.b = b;
     }
 
+    /**
+     * Creates a new RgbColor from a 6 digit hex string, e.g. "#3e3e3e".
+     */
     static fromHex(hex: string): RgbColor {
         if (hex[0] === "#") {
             hex = hex.substring(1);
@@ -29,6 +35,9 @@ export class RgbColor {
         );
     }
 
+    /**
+     * Converts this RgbColor to its representation as a 6 digit hex string.
+     */
     toHex(): string {
         return `#${componentToHex(this.r)}${componentToHex(this.g)}${componentToHex(this.b)}`
     }
