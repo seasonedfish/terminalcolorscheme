@@ -90,6 +90,9 @@ export interface ITerminalColorScheme {
 	name?: string
 }
 
+/**
+ * Represents a color scheme for terminal emulators.
+ */
 export class TerminalColorScheme implements ITerminalColorScheme {
 	// Use definite assignment assertion because the only constructor takes in an ITerminalColorScheme
 	// and sets the properties using it
@@ -111,6 +114,9 @@ export class TerminalColorScheme implements ITerminalColorScheme {
         Object.assign(this, object);
     }
 
+	/**
+	 * Creates a new TerminalColorScheme from the Alacritty TOML format.
+	 */
 	static fromAlacritty(colorSchemeText: string): TerminalColorScheme {
 		try {
 			var data = toml.parse(colorSchemeText);
@@ -146,6 +152,9 @@ export class TerminalColorScheme implements ITerminalColorScheme {
 		})
 	}
 
+	/**
+	 * Exports this TerminalColorScheme to the WezTerm TOML format.
+	 */
 	toWezTerm(): string {
 		const colorSchemeText = `[colors]
 ansi = [
@@ -167,6 +176,9 @@ foreground = '${this.foreground.toHex()}'`;
 		return colorSchemeText;
 	}
 
+	/**
+	 * Exports this TerminalColorScheme to the Windows Terminal JSON format.
+	 */
 	toWindowTerminal(): string {
 		type WindowsTerminalColorScheme = {
 			name: string
@@ -228,6 +240,9 @@ foreground = '${this.foreground.toHex()}'`;
 		return JSON.stringify(colorSchemeObject);
 	}
 
+	/**
+	 * Exports this TerminalColorScheme to the Ghostty config format.
+	 */
 	toGhostty(): string {
 		var colorSchemeText = `background = ${this.background.toHex()}
 foreground = ${this.foreground.toHex()}
