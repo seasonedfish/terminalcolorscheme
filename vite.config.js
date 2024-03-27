@@ -9,5 +9,7 @@ export default defineConfig({
 			name: "terminalcolorscheme",
 		},
 	},
-	plugins: [dts()],
+	plugins: [dts({
+		rollupTypes: true,
+	})],
 })

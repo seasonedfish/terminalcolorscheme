@@ -7,8 +7,10 @@
   ],
   "main": "./dist/terminalcolorscheme.umd.js",
   "module": "./dist/terminalcolorscheme.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/terminalcolorscheme.js",
       "require": "./dist/terminalcolorscheme.umd.js"
     }
