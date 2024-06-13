@@ -91,6 +91,18 @@ export interface ITerminalColorScheme {
 }
 
 /**
+ * Thrown when parsing TOML failed.
+ */
+export class TOMLError extends Error {
+	constructor(message: string) {
+		super(message);
+		Object.setPrototypeOf(this, TOMLError.prototype);
+
+		this.name = "TOMLError"
+	}
+}
+
+/**
  * Represents a color scheme for terminal emulators.
  */
 export class TerminalColorScheme implements ITerminalColorScheme {
@@ -121,7 +133,7 @@ export class TerminalColorScheme implements ITerminalColorScheme {
 		try {
 			var data = toml.parse(colorSchemeText);
 		} catch (err) {
-			throw new Error(`Parsing TOML failed: ${err}`)
+			throw new TOMLError(`${err}`)
 		}
 	
 		const ansi = new Ansi({
