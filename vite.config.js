@@ -9,6 +9,10 @@ export default defineConfig({
 			name: "terminalcolorscheme",
 		},
 	},
+	esbuild: {
+		minifyIdentifiers: false,
+		keepNames: true,
+	},
 	plugins: [dts({
 		rollupTypes: true,
 	})],
