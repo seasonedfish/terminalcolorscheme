@@ -94,11 +94,22 @@ export interface ITerminalColorScheme {
  * Thrown when parsing TOML failed.
  */
 export class TOMLError extends Error {
-	constructor(message: string) {
-		super(message);
+	constructor(cause?: any) {
+		super("Parsing TOML failed");
 		Object.setPrototypeOf(this, TOMLError.prototype);
 
-		this.name = "TOMLError"
+		this.name = "TOMLError";
+		this.cause = cause;
+	}
+}
+
+export class IncompleteColorSchemeError extends Error {
+	constructor(cause?: any) {
+		super("Given color scheme is missing fields");
+		Object.setPrototypeOf(this, TOMLError.prototype);
+
+		this.name = "IncompleteColorSchemeError";
+		this.cause = cause;
 	}
 }
 
@@ -133,35 +144,39 @@ export class TerminalColorScheme implements ITerminalColorScheme {
 		try {
 			var data = toml.parse(colorSchemeText);
 		} catch (err) {
-			throw new TOMLError(`${err}`)
+			throw new TOMLError(err)
 		}
-	
-		const ansi = new Ansi({
-			black: RgbColor.fromHex(data.colors.normal.black),
-			red: RgbColor.fromHex(data.colors.normal.red),
-			green: RgbColor.fromHex(data.colors.normal.green),
-			yellow: RgbColor.fromHex(data.colors.normal.yellow),
-			blue: RgbColor.fromHex(data.colors.normal.blue),
-			magenta: RgbColor.fromHex(data.colors.normal.magenta),
-			cyan: RgbColor.fromHex(data.colors.normal.cyan),
-			white: RgbColor.fromHex(data.colors.normal.white),
-			brightBlack: RgbColor.fromHex(data.colors.bright.black),
-			brightRed: RgbColor.fromHex(data.colors.bright.red),
-			brightGreen: RgbColor.fromHex(data.colors.bright.green),
-			brightYellow: RgbColor.fromHex(data.colors.bright.yellow),
-			brightBlue: RgbColor.fromHex(data.colors.bright.blue),
-			brightMagenta: RgbColor.fromHex(data.colors.bright.magenta),
-			brightCyan: RgbColor.fromHex(data.colors.bright.cyan),
-			brightWhite: RgbColor.fromHex(data.colors.bright.white)
-		});
-	
-		return new TerminalColorScheme({
-			background: RgbColor.fromHex(data.colors.primary.background),
-			foreground: RgbColor.fromHex(data.colors.primary.foreground),
-			ansi: ansi,
-			cursorForeground: RgbColor.fromHex(data.colors.cursor.text),
-			cursorBackground: RgbColor.fromHex(data.colors.cursor.cursor),
-		})
+		
+		try {
+			const ansi = new Ansi({
+				black: RgbColor.fromHex(data.colors.normal.black),
+				red: RgbColor.fromHex(data.colors.normal.red),
+				green: RgbColor.fromHex(data.colors.normal.green),
+				yellow: RgbColor.fromHex(data.colors.normal.yellow),
+				blue: RgbColor.fromHex(data.colors.normal.blue),
+				magenta: RgbColor.fromHex(data.colors.normal.magenta),
+				cyan: RgbColor.fromHex(data.colors.normal.cyan),
+				white: RgbColor.fromHex(data.colors.normal.white),
+				brightBlack: RgbColor.fromHex(data.colors.bright.black),
+				brightRed: RgbColor.fromHex(data.colors.bright.red),
+				brightGreen: RgbColor.fromHex(data.colors.bright.green),
+				brightYellow: RgbColor.fromHex(data.colors.bright.yellow),
+				brightBlue: RgbColor.fromHex(data.colors.bright.blue),
+				brightMagenta: RgbColor.fromHex(data.colors.bright.magenta),
+				brightCyan: RgbColor.fromHex(data.colors.bright.cyan),
+				brightWhite: RgbColor.fromHex(data.colors.bright.white)
+			});
+		
+			return new TerminalColorScheme({
+				background: RgbColor.fromHex(data.colors.primary.background),
+				foreground: RgbColor.fromHex(data.colors.primary.foreground),
+				ansi: ansi,
+				cursorForeground: RgbColor.fromHex(data.colors.cursor.text),
+				cursorBackground: RgbColor.fromHex(data.colors.cursor.cursor),
+			})
+		} catch (err) {
+			throw new IncompleteColorSchemeError(err);
+		}
 	}
 
 	/**
