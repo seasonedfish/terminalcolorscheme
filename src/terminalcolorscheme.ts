@@ -1,7 +1,7 @@
 import toml from "toml";
-import { RgbColor } from "./rgbcolor";
+import { RgbColor, fromHex, toHex } from "./rgbcolor";
 
-export interface IAnsi {
+export interface Ansi {
 	black: RgbColor;
 	red: RgbColor;
 	green: RgbColor;
@@ -21,61 +21,40 @@ export interface IAnsi {
 	brightWhite: RgbColor;
 }
 
-export class Ansi implements IAnsi {
-	black!: RgbColor;
-	red!: RgbColor;
-	green!: RgbColor;
-	yellow!: RgbColor;
-	blue!: RgbColor;
-	magenta!: RgbColor;
-	cyan!: RgbColor;
-	white!: RgbColor;
-
-	brightBlack!: RgbColor;
-	brightRed!: RgbColor;
-	brightGreen!: RgbColor;
-	brightYellow!: RgbColor;
-	brightBlue!: RgbColor;
-	brightMagenta!: RgbColor;
-	brightCyan!: RgbColor;
-	brightWhite!: RgbColor;
-
-	constructor(object: IAnsi) {
-        Object.assign(this, object);
-    }
-
-	normalColors(): Array<RgbColor> {
-		return [
-			this.black,
-			this.red,
-			this.green,
-			this.yellow,
-			this.blue,
-			this.magenta,
-			this.cyan,
-			this.white,
-		]
-	}
-
-	brightColors(): Array<RgbColor> {
-		return [
-			this.brightBlack,
-			this.brightRed,
-			this.brightGreen,
-			this.brightYellow,
-			this.brightBlue,
-			this.brightMagenta,
-			this.brightCyan,
-			this.brightWhite,
-		]
-	}
-
-	colors(): Array<RgbColor> {
-		return [...this.normalColors(), ...this.brightColors()]
-	}
+export function normalColors(ansi: Ansi): Array<RgbColor> {
+	return [
+		ansi.black,
+		ansi.red,
+		ansi.green,
+		ansi.yellow,
+		ansi.blue,
+		ansi.magenta,
+		ansi.cyan,
+		ansi.white,
+	]
 }
 
-export interface ITerminalColorScheme {
+export function brightColors(ansi: Ansi): Array<RgbColor> {
+	return [
+		ansi.brightBlack,
+		ansi.brightRed,
+		ansi.brightGreen,
+		ansi.brightYellow,
+		ansi.brightBlue,
+		ansi.brightMagenta,
+		ansi.brightCyan,
+		ansi.brightWhite,
+	]
+}
+
+export function allColors(ansi: Ansi): Array<RgbColor> {
+	return [...normalColors(ansi), ...brightColors(ansi)]
+}
+
+/**
+ * Represents a color scheme for terminal emulators.
+ */
+export interface TerminalColorScheme {
 	background: RgbColor
 	foreground: RgbColor
 	ansi: Ansi
@@ -114,184 +93,159 @@ export class IncompleteColorSchemeError extends Error {
 }
 
 /**
- * Represents a color scheme for terminal emulators.
+ * Creates a new TerminalColorScheme from the Alacritty TOML format.
  */
-export class TerminalColorScheme implements ITerminalColorScheme {
-	// Use definite assignment assertion because the only constructor takes in an ITerminalColorScheme
-	// and sets the properties using it
-	// https://www.ryadel.com/en/ts2564-ts-property-has-no-initializer-typescript-error-fix-visual-studio-2017-vs2017/
-	background!: RgbColor
-	foreground!: RgbColor
-	ansi!: Ansi
-
-	cursorBackground?: RgbColor
-	cursorBorder?: RgbColor
-	cursorForeground?: RgbColor
-
-	selectionBackground?: RgbColor
-	selectionForeground?: RgbColor
-
-	name?: string
-
-	constructor(object: ITerminalColorScheme) {
-        Object.assign(this, object);
-    }
-
-	/**
-	 * Creates a new TerminalColorScheme from the Alacritty TOML format.
-	 */
-	static fromAlacritty(colorSchemeText: string): TerminalColorScheme {
-		try {
-			var data = toml.parse(colorSchemeText);
-		} catch (err) {
-			throw new TOMLError(err)
-		}
-		
-		try {
-			const ansi = new Ansi({
-				black: RgbColor.fromHex(data.colors.normal.black),
-				red: RgbColor.fromHex(data.colors.normal.red),
-				green: RgbColor.fromHex(data.colors.normal.green),
-				yellow: RgbColor.fromHex(data.colors.normal.yellow),
-				blue: RgbColor.fromHex(data.colors.normal.blue),
-				magenta: RgbColor.fromHex(data.colors.normal.magenta),
-				cyan: RgbColor.fromHex(data.colors.normal.cyan),
-				white: RgbColor.fromHex(data.colors.normal.white),
-				brightBlack: RgbColor.fromHex(data.colors.bright.black),
-				brightRed: RgbColor.fromHex(data.colors.bright.red),
-				brightGreen: RgbColor.fromHex(data.colors.bright.green),
-				brightYellow: RgbColor.fromHex(data.colors.bright.yellow),
-				brightBlue: RgbColor.fromHex(data.colors.bright.blue),
-				brightMagenta: RgbColor.fromHex(data.colors.bright.magenta),
-				brightCyan: RgbColor.fromHex(data.colors.bright.cyan),
-				brightWhite: RgbColor.fromHex(data.colors.bright.white)
-			});
-		
-			return new TerminalColorScheme({
-				background: RgbColor.fromHex(data.colors.primary.background),
-				foreground: RgbColor.fromHex(data.colors.primary.foreground),
-				ansi: ansi,
-				cursorForeground: RgbColor.fromHex(data.colors.cursor.text),
-				cursorBackground: RgbColor.fromHex(data.colors.cursor.cursor),
-			})
-		} catch (err) {
-			throw new IncompleteColorSchemeError(err);
-		}
+export function fromAlacritty(colorSchemeText: string): TerminalColorScheme {
+	try {
+		var data = toml.parse(colorSchemeText);
+	} catch (err) {
+		throw new TOMLError(err)
 	}
+	
+	try {
+		const ansi = {
+			black: fromHex(data.colors.normal.black),
+			red: fromHex(data.colors.normal.red),
+			green: fromHex(data.colors.normal.green),
+			yellow: fromHex(data.colors.normal.yellow),
+			blue: fromHex(data.colors.normal.blue),
+			magenta: fromHex(data.colors.normal.magenta),
+			cyan: fromHex(data.colors.normal.cyan),
+			white: fromHex(data.colors.normal.white),
+			brightBlack: fromHex(data.colors.bright.black),
+			brightRed: fromHex(data.colors.bright.red),
+			brightGreen: fromHex(data.colors.bright.green),
+			brightYellow: fromHex(data.colors.bright.yellow),
+			brightBlue: fromHex(data.colors.bright.blue),
+			brightMagenta: fromHex(data.colors.bright.magenta),
+			brightCyan: fromHex(data.colors.bright.cyan),
+			brightWhite: fromHex(data.colors.bright.white)
+		};
+	
+		return {
+			background: fromHex(data.colors.primary.background),
+			foreground: fromHex(data.colors.primary.foreground),
+			ansi: ansi,
+			cursorForeground: fromHex(data.colors.cursor.text),
+			cursorBackground: fromHex(data.colors.cursor.cursor),
+		}
+	} catch (err) {
+		throw new IncompleteColorSchemeError(err);
+	}
+}
 
-	/**
-	 * Exports this TerminalColorScheme to the WezTerm TOML format.
-	 */
-	toWezTerm(): string {
-		const colorSchemeText = `[colors]
+/**
+ * Exports a TerminalColorScheme to the WezTerm TOML format.
+ */
+export function toWezTerm(scheme: TerminalColorScheme): string {
+	const colorSchemeText = `[colors]
 ansi = [
-	${this.ansi.normalColors()
-		.map((color) => `'${color.toHex()}'`)
-		.join(",\n\t")
-	}
+${normalColors(scheme.ansi)
+	.map((color) => `'${toHex(color)}'`)
+	.join(",\n\t")
+}
 ]
 brights = [
-	${this.ansi.brightColors()
-		.map((color) => `'${color.toHex()}'`)
-		.join(",\n\t")
-	}
+${brightColors(scheme.ansi)
+	.map((color) => `'${toHex(color)}'`)
+	.join(",\n\t")
+}
 ]
 
-background = '${this.background.toHex()}'
-foreground = '${this.foreground.toHex()}'`;
+background = '${toHex(scheme.background)}'
+foreground = '${toHex(scheme.foreground)}'`;
 
-		return colorSchemeText;
+	return colorSchemeText;
+}
+
+/**
+ * Exports a TerminalColorScheme to the Windows Terminal JSON format.
+ */
+export function toWindowTerminal(scheme: TerminalColorScheme): string {
+	type WindowsTerminalColorScheme = {
+		name: string
+		cursorColor?: string;
+		selectionBackground?: string;
+		background: string;
+		foreground: string;
+		black: string;
+		blue: string;
+		cyan: string;
+		green: string;
+		purple: string;
+		red: string;
+		white: string;
+		yellow: string;
+		brightBlack: string;
+		brightBlue: string;
+		brightCyan: string;
+		brightGreen: string;
+		brightPurple: string;
+		brightRed: string;
+		brightWhite: string;
+		brightYellow: string;
 	}
 
-	/**
-	 * Exports this TerminalColorScheme to the Windows Terminal JSON format.
-	 */
-	toWindowTerminal(): string {
-		type WindowsTerminalColorScheme = {
-			name: string
-			cursorColor?: string;
-			selectionBackground?: string;
-			background: string;
-			foreground: string;
-			black: string;
-			blue: string;
-			cyan: string;
-			green: string;
-			purple: string;
-			red: string;
-			white: string;
-			yellow: string;
-			brightBlack: string;
-			brightBlue: string;
-			brightCyan: string;
-			brightGreen: string;
-			brightPurple: string;
-			brightRed: string;
-			brightWhite: string;
-			brightYellow: string;
-		}
+	const colorSchemeObject: WindowsTerminalColorScheme = {
+		"name": scheme.name ?? "Unnamed",
+	
+		"background": toHex(scheme.background),
+		"foreground": toHex(scheme.foreground),
+	
+		"black": toHex(scheme.ansi.black),
+		"blue": toHex(scheme.ansi.blue),
+		"cyan": toHex(scheme.ansi.cyan),
+		"green": toHex(scheme.ansi.green),
+		"purple": toHex(scheme.ansi.magenta),
+		"red": toHex(scheme.ansi.red),
+		"white": toHex(scheme.ansi.white),
+		"yellow": toHex(scheme.ansi.yellow),
+	
+		"brightBlack": toHex(scheme.ansi.brightBlack),
+		"brightBlue": toHex(scheme.ansi.brightBlue),
+		"brightCyan": toHex(scheme.ansi.brightCyan),
+		"brightGreen": toHex(scheme.ansi.brightGreen),
+		"brightPurple": toHex(scheme.ansi.brightMagenta),
+		"brightRed": toHex(scheme.ansi.brightRed),
+		"brightWhite": toHex(scheme.ansi.brightWhite),
+		"brightYellow": toHex(scheme.ansi.brightYellow)
+	};
 
-		const colorSchemeObject: WindowsTerminalColorScheme = {
-			"name": this.name ?? "Unnamed",
-		
-			"background": this.background.toHex(),
-			"foreground": this.foreground.toHex(),
-		
-			"black": this.ansi.black.toHex(),
-			"blue": this.ansi.blue.toHex(),
-			"cyan": this.ansi.cyan.toHex(),
-			"green": this.ansi.green.toHex(),
-			"purple": this.ansi.magenta.toHex(),
-			"red": this.ansi.red.toHex(),
-			"white": this.ansi.white.toHex(),
-			"yellow": this.ansi.yellow.toHex(),
-		
-			"brightBlack": this.ansi.brightBlack.toHex(),
-			"brightBlue": this.ansi.brightBlue.toHex(),
-			"brightCyan": this.ansi.brightCyan.toHex(),
-			"brightGreen": this.ansi.brightGreen.toHex(),
-			"brightPurple": this.ansi.brightMagenta.toHex(),
-			"brightRed": this.ansi.brightRed.toHex(),
-			"brightWhite": this.ansi.brightWhite.toHex(),
-			"brightYellow": this.ansi.brightYellow.toHex()
-		};
-
-		if (typeof this.cursorBackground !== "undefined") {
-			colorSchemeObject.cursorColor = this.cursorBackground.toHex();
-		}
-
-		if (typeof this.selectionBackground !== "undefined") {
-			colorSchemeObject.selectionBackground = this.selectionBackground.toHex();
-		}
-
-		return JSON.stringify(colorSchemeObject);
+	if (typeof scheme.cursorBackground !== "undefined") {
+		colorSchemeObject.cursorColor = toHex(scheme.cursorBackground);
 	}
 
-	/**
-	 * Exports this TerminalColorScheme to the Ghostty config format.
-	 */
-	toGhostty(): string {
-		var colorSchemeText = `background = ${this.background.toHex()}
-foreground = ${this.foreground.toHex()}
+	if (typeof scheme.selectionBackground !== "undefined") {
+		colorSchemeObject.selectionBackground = toHex(scheme.selectionBackground);
+	}
 
-${this.ansi.colors()
-	.map((color, index) => `palette = ${index}=${color.toHex()}`)
+	return JSON.stringify(colorSchemeObject);
+}
+
+/**
+ * Exports a TerminalColorScheme to the Ghostty config format.
+ */
+export function toGhostty(scheme: TerminalColorScheme): string {
+	var colorSchemeText = `background = ${toHex(scheme.background)}
+foreground = ${toHex(scheme.foreground)}
+
+${allColors(scheme.ansi)
+	.map((color, index) => `palette = ${index}=${toHex(color)}`)
 	.join("\n")
 }
 `;
 
-		if (typeof this.selectionBackground !== "undefined") {
-			colorSchemeText += `\nselection-background = ${this.selectionBackground.toHex()}`;
-		}
-		if (typeof this.selectionForeground !== "undefined") {
-			colorSchemeText += `\nselection-foreground = ${this.selectionForeground.toHex()}`;
-		}
-		if (typeof this.cursorBackground !== "undefined") {
-			colorSchemeText += `\ncursor-color = ${this.cursorBackground.toHex()}`;
-		}
-		if (typeof this.cursorForeground !== "undefined") {
-			colorSchemeText += `\ncursor-text = ${this.cursorForeground.toHex()}`;
-		}
-		return colorSchemeText;
+	if (typeof scheme.selectionBackground !== "undefined") {
+		colorSchemeText += `\nselection-background = ${toHex(scheme.selectionBackground)}`;
 	}
+	if (typeof scheme.selectionForeground !== "undefined") {
+		colorSchemeText += `\nselection-foreground = ${toHex(scheme.selectionForeground)}`;
+	}
+	if (typeof scheme.cursorBackground !== "undefined") {
+		colorSchemeText += `\ncursor-color = ${toHex(scheme.cursorBackground)}`;
+	}
+	if (typeof scheme.cursorForeground !== "undefined") {
+		colorSchemeText += `\ncursor-text = ${toHex(scheme.cursorForeground)}`;
+	}
+	return colorSchemeText;
 }

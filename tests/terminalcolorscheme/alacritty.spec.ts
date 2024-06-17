@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { IncompleteColorSchemeError, RgbColor, TOMLError, TerminalColorScheme } from "../../src/main"
+import { IncompleteColorSchemeError, TOMLError, fromAlacritty } from "../../src/main"
 
 test("import Alacritty color scheme", () => {
     /* 
@@ -53,12 +53,12 @@ yellow = "#B77E64"
 background = "#1C1917"
 foreground = "#B4BDC3"
 `
-    const scheme = TerminalColorScheme.fromAlacritty(schemeText);
-    expect(scheme.ansi.brightBlack).toEqual(new RgbColor(0x40, 0x38, 0x33));
+    const scheme = fromAlacritty(schemeText);
+    expect(scheme.ansi.brightBlack).toEqual({r: 0x40, g: 0x38, b: 0x33});
 });
 
 test("invalid TOML throws TOMLError", () => {
-    expect(() => TerminalColorScheme.fromAlacritty(":")).toThrowError(new TOMLError());
+    expect(() => fromAlacritty(":")).toThrowError(new TOMLError());
 })
 
 test("incomplete color scheme errors", () => {
@@ -67,5 +67,5 @@ test("incomplete color scheme errors", () => {
     const schemeText = `[colors.normal]
 black = "#000000"
 `
-    expect(() => TerminalColorScheme.fromAlacritty(schemeText)).toThrowError(new IncompleteColorSchemeError());
+    expect(() => fromAlacritty(schemeText)).toThrowError(new IncompleteColorSchemeError());
 })
